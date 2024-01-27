@@ -15,28 +15,24 @@ namespace ALibWinForms;
 public partial class Form1 : Form
 {
     private string photoPath = @"C:\Users\user\Videos\Captures\Messi fa on Liverpool (2).mp4";
-    private LibVLC libVLC;
-    private MediaPlayer mediaPlayer;
+    private Button play;
 
-    public void InitializeLibVLC()
-    {
-        libVLC = new LibVLC();
 
-        mediaPlayer = new MediaPlayer(libVLC);
-
-        videoDemo.MediaPlayer = mediaPlayer;
-    }
-    private void OpenVideo(string filePath)
-    {
-        var media = new Media(libVLC, filePath, FromType.FromPath);
-        mediaPlayer.Play(media);
-    }
 
 
     public Form1()
     {
         InitializeComponent();
-        InitializeLibVLC();
+        videoaLib1.VideoFilePath = photoPath;
+        videoaLib1.DoAllThing();
+
+        play = new Button();
+        play.Location = new Point(50, 50);
+        play.Size = new Size(50, 30);
+        play.BringToFront();
+        play.Text = "play";
+        play.Visible = true;
+        videoaLib1.Controls.Add(play);
     }
 
     private static Image ByteArrayToImage(byte[] byteArray)
@@ -74,7 +70,14 @@ public partial class Form1 : Form
                     pBoxImage.Image = PhotoConverter.ConvertByteArrayToImage(byteArray);
                 }*/
 
-        OpenVideo(photoPath);
+        videoaLib1.OpenVideo();
+        videoPanel1.VideoFile("C:\\Users\\user\\Videos\\Captures\\Messi fa on Liverpool (2).mp4");
+        videoPanel1.PlayVideo();
+
+        //progressBar1.Increment(10);
+
+        newVideoView1.VideoFilePath = "C:\\Users\\user\\Videos\\Captures\\Messi fa on Liverpool (2).mp4";
+        newVideoView1.OpenVideo();
     }
 
     private void On_imageDropped(object sender, DragEventArgs e)
@@ -93,6 +96,8 @@ public partial class Form1 : Form
     private void Form1_Load(object sender, EventArgs e)
     {
         pBoxImage.AllowDrop = true;
+        newVideoView1.VideoFilePath = "C:\\Users\\user\\Videos\\Captures\\Messi fa on Liverpool (2).mp4";
+        newVideoView1.OpenVideo();
     }
 
     private void On_imageEntered(object sender, DragEventArgs e)
@@ -100,22 +105,43 @@ public partial class Form1 : Form
         e.Effect = DragDropEffects.Copy;
     }
 
-    private void btnPlayOrPause_Click(object sender, EventArgs e)
+    private void On_mouseOnVideo(object sender, EventArgs e)
     {
-        if (mediaPlayer.IsPlaying)
-        {
-            mediaPlayer.Pause();
-            btnPlayOrPause.Text = "Play";
-        }
-        else
-        {
-            mediaPlayer.Play();
-            btnPlayOrPause.Text = "Pause";
-        }
+        play.Visible = true;
+        Debug.WriteLine("On_mouseOnVideo");
     }
 
-    private void videoDemo_Click(object sender, EventArgs e)
+    private void videoaLib1_MouseDown(object sender, MouseEventArgs e)
+    {
+        // play.Visible = true;
+    }
+
+    private void videoaLib1_MouseMove(object sender, MouseEventArgs e)
+    {
+        play.Visible = true;
+        Debug.WriteLine("videoaLib1_MouseMove");
+    }
+
+    private void videoaLib1_Click(object sender, EventArgs e)
+    {
+        play.Visible = true;
+        Debug.WriteLine("videoaLib1_MouseMove");
+    }
+
+
+    private void VideoView_Paint(object sender, PaintEventArgs e)
     {
 
+
+    }
+
+    private void On_mouseEntered(object sender, EventArgs e)
+    {
+        Debug.WriteLine("VideoView object mouse entred");
+    }
+
+    private void videoView1_Click(object sender, EventArgs e)
+    {
+        Debug.WriteLine("VideoView object mouse entred");
     }
 }

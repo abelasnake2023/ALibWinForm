@@ -961,3 +961,7 @@ C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\bin\Debug\net8.0-w
 C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\bin\Debug\net8.0-windows\libvlc\win-x86\plugins\visualization\libgoom_plugin.dll
 C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\bin\Debug\net8.0-windows\libvlc\win-x86\plugins\visualization\libprojectm_plugin.dll
 C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\bin\Debug\net8.0-windows\libvlc\win-x86\plugins\visualization\libvisual_plugin.dll
+C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\obj\Debug\net8.0-windows\ALibWinForms.sourcelink.json
+C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\bin\Debug\net8.0-windows\Guna.UI2.dll
+C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\bin\Debug\net8.0-windows\System.Management.dll
+C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\bin\Debug\net8.0-windows\runtimes\win\lib\net7.0\System.Management.dll

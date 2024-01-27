@@ -1,7 +1,9 @@
 ﻿namespace ALibWinForms.Ui.Video;
 
 using LibVLCSharp.WinForms;
+using LibVLCSharp.Shared;
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -9,36 +11,74 @@ using System.Drawing.Drawing2D;
 
 public class VideoALib : VideoView
 {
-    private int cornerRadius = 10; // Adjust this value based on your preference
+    private string videoFilePath;
+    private LibVLC libVLC;
+    private MediaPlayer mediaPlayer;
+    private Media media;
+    private Panel overlayPanel;
 
-    public int CornerRadius
+
+    public string VideoFilePath
     {
-        get { return cornerRadius; }
-        set
-        {
-            cornerRadius = value;
-            Invalidate(); // Trigger a redraw when the corner radius is changed
-        }
+        get { return this.videoFilePath; }
+        set { this.videoFilePath = value; }
     }
 
+
+    public VideoALib()
+    {
+
+    }
+
+
+
+    public void DoAllThing()
+    {
+        libVLC = new LibVLC();
+        this.mediaPlayer = new MediaPlayer(libVLC);
+        base.MediaPlayer = mediaPlayer;
+        base.Invoke((MethodInvoker)delegate
+        {
+            string x = Convert.ToString(this.Width);
+            string y = Convert.ToString(this.Height);
+            this.mediaPlayer.AspectRatio = $"{x}:{y}";
+        });
+
+
+
+
+        overlayPanel = new Panel();
+        overlayPanel.Dock = DockStyle.Fill;
+        overlayPanel.BackColor = Color.Transparent;
+        this.Controls.Add(overlayPanel);
+    }
+    public void OpenVideo()
+    {
+        media = new Media(this.libVLC, this.videoFilePath, FromType.FromPath);
+
+        this.Invoke((MethodInvoker)delegate
+        {
+            string x = Convert.ToString(this.Width);
+            string y = Convert.ToString(this.Height);
+            this.mediaPlayer.AspectRatio = $"{x}:{y}";
+        });
+
+        this.mediaPlayer.Play(media);
+    }
+
+
+    //MAKE THE VIDEO VIEW CONTAINER TO HAVE ROUND CORNER
     protected override void OnPaint(PaintEventArgs e) //Polymorphism
     {
-        GraphicsPath path = new GraphicsPath();
-        Rectangle rect = new Rectangle(0, 0, Width, Height);
-
-        // Add rounded rectangle to the graphics path
-        path.AddArc(rect.X, rect.Y, cornerRadius, cornerRadius, 180, 90);
-        path.AddArc(rect.Right - cornerRadius, rect.Y, cornerRadius, cornerRadius, 270, 90);
-        path.AddArc(rect.Right - cornerRadius, rect.Bottom - cornerRadius, cornerRadius, cornerRadius, 0, 90);
-        path.AddArc(rect.X, rect.Bottom - cornerRadius, cornerRadius, cornerRadius, 90, 90);
-        path.CloseAllFigures();
-
-        // Set the clipping region to the rounded rectangle
-        e.Graphics.SetClip(path);
+        base.OnPaint(e);
+        Rectangle Rect = new Rectangle(0, 0, this.Width, this.Height);
+        GraphicsPath GraphPath = new GraphicsPath();
+        GraphPath.AddArc(Rect.X, Rect.Y, 50, 50, 180, 90);
+        GraphPath.AddArc(Rect.X + Rect.Width - 50, Rect.Y, 50, 50, 270, 90);
+        GraphPath.AddArc(Rect.X + Rect.Width - 50, Rect.Y + Rect.Height - 50, 50, 50, 0, 90);
+        GraphPath.AddArc(Rect.X, Rect.Y + Rect.Height - 50, 50, 50, 90, 90);
+        this.Region = new Region(GraphPath);
 
         base.OnPaint(e);
-
-        // Reset the clipping region
-        e.Graphics.ResetClip();
     }
 }
