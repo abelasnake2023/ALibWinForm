@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 public class NewVideoView : Panel
 {
-    private VideoView v = new VideoView();
+    private VideoViewAbel v = new VideoViewAbel();
     private string videoFilePath;
     private LibVLC libVLC;
     private MediaPlayer mediaPlayer;
@@ -38,7 +38,8 @@ public class NewVideoView : Panel
         {
             this.videoViewImage = value;
             v.BackgroundImage = this.videoViewImage;
-            v.Dock = DockStyle.Fill;
+            v.Dock = DockStyle.Top;
+            v.Size = new Size(this.Width, this.Height - 20);
             this.Controls.Add(v);
             timer = new System.Windows.Forms.Timer();
             timer.Interval = 1;
@@ -168,5 +169,29 @@ public class NewVideoView : Panel
         this.Region = new Region(GraphPath);
 
         base.OnPaint(e);
+    }
+}
+
+
+public class VideoViewAbel : VideoView
+{
+    public VideoViewAbel()
+    {
+        
+    }
+
+    protected override void OnPaint(PaintEventArgs e) //Polymorphism
+    {
+        base.OnPaint(e);
+        Rectangle Rect = new Rectangle(0, 0, this.Width, this.Height);
+        GraphicsPath GraphPath = new GraphicsPath();
+        GraphPath.AddArc(Rect.X, Rect.Y, 50, 50, 180, 90); // Top-left corner
+        GraphPath.AddArc(Rect.X + Rect.Width - 50, Rect.Y, 50, 50, 270, 90); // Top-right corner
+        GraphPath.AddLine(Rect.X + Rect.Width, Rect.Y + 50, Rect.X + Rect.Width, Rect.Y + Rect.Height);
+        GraphPath.AddLine(Rect.X + Rect.Width, Rect.Y + Rect.Height, Rect.X, Rect.Y + Rect.Height);
+        GraphPath.AddLine(Rect.X, Rect.Y + Rect.Height, Rect.X, Rect.Y + 50);
+        GraphPath.CloseFigure();
+
+        this.Region = new Region(GraphPath);
     }
 }

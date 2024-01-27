@@ -71,13 +71,6 @@ public partial class Form1 : Form
                 }*/
 
         videoaLib1.OpenVideo();
-        videoPanel1.VideoFile("C:\\Users\\user\\Videos\\Captures\\Messi fa on Liverpool (2).mp4");
-        videoPanel1.PlayVideo();
-
-        //progressBar1.Increment(10);
-
-        newVideoView1.VideoFilePath = "C:\\Users\\user\\Videos\\Captures\\Messi fa on Liverpool (2).mp4";
-        newVideoView1.OpenVideo();
     }
 
     private void On_imageDropped(object sender, DragEventArgs e)
@@ -96,8 +89,15 @@ public partial class Form1 : Form
     private void Form1_Load(object sender, EventArgs e)
     {
         pBoxImage.AllowDrop = true;
+
+        //new Video View
         newVideoView1.VideoFilePath = "C:\\Users\\user\\Videos\\Captures\\Messi fa on Liverpool (2).mp4";
         newVideoView1.OpenVideo();
+
+        //Video Panel
+        videoPanel1.VideoFile("C:\\Users\\user\\Videos\\Captures\\Messi fa on Liverpool (2).mp4");
+        videoPanel1.InitiateVideo();
+        Debug.WriteLine(videoPanel1.Help());
     }
 
     private void On_imageEntered(object sender, DragEventArgs e)
