@@ -16,7 +16,6 @@ public class VideoInPanel : Panel
     private Image videoBackGroundImage;
     private string videoFile;
     private MediaPlayer medPlay;
-    private Media media;
     //the panel rest of the VideoView container
     private Panel restPanel;
     //the progress bar
@@ -98,6 +97,10 @@ public class VideoInPanel : Panel
     {
 
     }
+    public void VideoMemoryStream(MemoryStream memoryStream)
+    {
+
+    }
     public void VideoFile(string videoFile)
     {
         videoFile = videoFile.Trim();
@@ -107,13 +110,20 @@ public class VideoInPanel : Panel
     public void InitiateVideo()
     {
         v.OpenVideo();
-        this.media = v.Media;
     }
     public string Help()
     {
-        return "1st call the video source -> VideoFile(string videoFile) or VideoByte(byte[] b)\n" +
-               "2nd call the method that initiate(not play b/c the video plays when the mouse hover on it)" +
-               " the video -> InitiateVideo()\n";
+        string s = "\n        * Step to be followed with example\n" +
+            "        Image i = Image.FromFile(@\"C:\\Users\\user\\Desktop\\Github profile.jpg\");\r\n" +
+            "        VideoInPanel videoInPanel = new VideoInPanel();\r\n" +
+            "        videoInPanel.Location = new Point(500, 400);\r\n" +
+            "        videoInPanel.Size = new Size(500, 300);\r\n" +
+            "        videoInPanel.VideoBackGroundImage = i;\r\n" +
+            "        videoInPanel.VideoFile(@\"C:\\Users\\user\\Videos\\Captures\\Messi fa on Liverpool (2).mp4\");\r\n" +
+            "        videoInPanel.InitiateVideo();\r\n" +
+            "        this.Controls.Add(videoInPanel);\n";
+
+        return s;
     }
 
 
@@ -137,7 +147,7 @@ public class VideoInPanel : Panel
 
                 if (!this.medPlay.IsPlaying)
                 {
-                    await Task.Run(() => this.medPlay.Play(media));
+                    await Task.Run(() => v.Play());
 
                     if(this.delayProgressBar)
                     {
@@ -152,7 +162,7 @@ public class VideoInPanel : Panel
             {
                 this.delayProgressBar = false;
                 this.guiTimerEqNonGuiTimer = false;
-                await Task.Run(() => this.medPlay.Stop());
+                await Task.Run(() => v.Stop());
                 this.progressBar.Value = 0;
                 movieCurrentTime = 0;
 
@@ -173,7 +183,7 @@ public class VideoInPanel : Panel
                 this.progressBar.BeginInvoke((MethodInvoker)(() =>
                 {
                     if (this.progressBar.Value < 100 && guiTimerEqNonGuiTimer && this.medPlay.IsPlaying
-                    && movieCurrentTime > 300)
+                    && movieCurrentTime > 200)
                     {
                         progressBar.Value += 1;
                     }
@@ -182,7 +192,7 @@ public class VideoInPanel : Panel
             else
             {
                 if (this.progressBar.Value < 100 && guiTimerEqNonGuiTimer && this.medPlay.IsPlaying
-                    && movieCurrentTime > 300)
+                    && movieCurrentTime > 200)
                 {
                     progressBar.Value += 1;
                 }
@@ -314,9 +324,15 @@ internal class VideoViewInPanel : VideoView
                 string y = Convert.ToString(this.Height);
                 this.mediaPlay.AspectRatio = $"{x}:{y}";
             });
-            this.mediaPlay.Play(this.media);
-            this.mediaPlay.Stop();
         });
+    }
+    public void Play()
+    {
+        this.mediaPlay.Play(this.media);
+    }
+    public void Stop()
+    {
+        this.mediaPlay.Stop();
     }
 
 

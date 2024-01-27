@@ -1,4 +1,5 @@
-﻿namespace ALibWinForms.BusinessLogic;
+﻿namespace ALibWinForms.Ui.Photo;
+
 
 
 using System;

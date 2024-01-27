@@ -1,4 +1,4 @@
-using ALibWinForms.BusinessLogic;
+//using ALibWinForms.BusinessLogic;
 using System.Diagnostics;
 using System.Security.Policy;
 using System.Text;
@@ -7,7 +7,7 @@ using ALib.Database.ALibSqlServer;
 using System;
 using LibVLCSharp.Shared;
 using LibVLCSharp.WinForms;
-
+using ALibWinForms.Ui.Video;
 
 namespace ALibWinForms;
 
@@ -23,8 +23,7 @@ public partial class Form1 : Form
     public Form1()
     {
         InitializeComponent();
-        videoaLib1.VideoFilePath = photoPath;
-        videoaLib1.DoAllThing();
+
 
         play = new Button();
         play.Location = new Point(50, 50);
@@ -32,7 +31,6 @@ public partial class Form1 : Form
         play.BringToFront();
         play.Text = "play";
         play.Visible = true;
-        videoaLib1.Controls.Add(play);
     }
 
     private static Image ByteArrayToImage(byte[] byteArray)
@@ -70,7 +68,6 @@ public partial class Form1 : Form
                     pBoxImage.Image = PhotoConverter.ConvertByteArrayToImage(byteArray);
                 }*/
 
-        videoaLib1.OpenVideo();
     }
 
     private void On_imageDropped(object sender, DragEventArgs e)
@@ -90,14 +87,21 @@ public partial class Form1 : Form
     {
         pBoxImage.AllowDrop = true;
 
-        //new Video View
-        newVideoView1.VideoFilePath = "C:\\Users\\user\\Videos\\Captures\\Messi fa on Liverpool (2).mp4";
-        newVideoView1.OpenVideo();
+
+        /*        videoInPanel1.VideoFile("C:\\Users\\user\\Videos\\Captures\\Messi fa on Liverpool (2).mp4");
+                videoInPanel1.InitiateVideo();*/
 
         //Video Panel
-        videoPanel1.VideoFile("C:\\Users\\user\\Videos\\Captures\\Messi fa on Liverpool (2).mp4");
-        videoPanel1.InitiateVideo();
-        Debug.WriteLine(videoPanel1.Help());
+        Image i = Image.FromFile(@"C:\Users\user\Desktop\Github profile.jpg");
+        VideoInPanel videoInPanel = new VideoInPanel();
+        videoInPanel.Location = new Point(500, 400);
+        videoInPanel.Size = new Size(500, 300);
+        videoInPanel.VideoBackGroundImage = i;
+        videoInPanel.VideoFile("C:\\Users\\user\\Videos\\Captures\\Messi fa on Liverpool (2).mp4");
+        videoInPanel.InitiateVideo();
+        this.Controls.Add(videoInPanel);
+
+        Debug.WriteLine(videoInPanel.Help());
     }
 
     private void On_imageEntered(object sender, DragEventArgs e)

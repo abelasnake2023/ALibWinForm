@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ALibWinForms")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a0884174e007fa19a03d330dabed5e4e4ef17388")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f83d03b247e5e636a7d660fa8fa71219790454e6")]
 [assembly: System.Reflection.AssemblyProductAttribute("ALibWinForms")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ALibWinForms")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

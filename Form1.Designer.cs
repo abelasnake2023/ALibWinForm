@@ -33,11 +33,7 @@ namespace ALibWinForms
             pBoxImage = new PictureBox();
             btnAddPhotoFilePath = new Button();
             txtBoxFilePath = new TextBox();
-            videoaLib1 = new VideoALib();
-            videoPanel1 = new VideoInPanel();
-            newVideoView1 = new NewVideoView();
             ((System.ComponentModel.ISupportInitialize)pBoxImage).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)videoaLib1).BeginInit();
             SuspendLayout();
             // 
             // pBoxImage
@@ -68,43 +64,6 @@ namespace ALibWinForms
             txtBoxFilePath.Size = new Size(292, 23);
             txtBoxFilePath.TabIndex = 2;
             // 
-            // videoaLib1
-            // 
-            videoaLib1.AllowDrop = true;
-            videoaLib1.BackColor = Color.Black;
-            videoaLib1.BackgroundImage = Properties.Resources.Github_profile1;
-            videoaLib1.Location = new Point(153, 382);
-            videoaLib1.MediaPlayer = null;
-            videoaLib1.Name = "videoaLib1";
-            videoaLib1.Size = new Size(515, 335);
-            videoaLib1.TabIndex = 3;
-            videoaLib1.Text = "videoaLib1";
-            videoaLib1.VideoFilePath = null;
-            videoaLib1.Click += videoaLib1_Click;
-            videoaLib1.Paint += VideoView_Paint;
-            videoaLib1.Enter += On_mouseEntered;
-            videoaLib1.MouseDown += videoaLib1_MouseDown;
-            videoaLib1.MouseEnter += On_mouseOnVideo;
-            videoaLib1.MouseMove += videoaLib1_MouseMove;
-            // 
-            // videoPanel1
-            // 
-            videoPanel1.BackColor = SystemColors.ActiveCaption;
-            videoPanel1.Location = new Point(672, 64);
-            videoPanel1.Name = "videoPanel1";
-            videoPanel1.Size = new Size(506, 350);
-            videoPanel1.TabIndex = 4;
-            videoPanel1.VideoBackGroundImage = Properties.Resources.Github_profile2;
-            // 
-            // newVideoView1
-            // 
-            newVideoView1.Location = new Point(693, 420);
-            newVideoView1.Name = "newVideoView1";
-            newVideoView1.Size = new Size(514, 351);
-            newVideoView1.TabIndex = 5;
-            newVideoView1.VideoFilePath = null;
-            newVideoView1.VideoViewImage = Properties.Resources.Github_profile5;
-            // 
             // Form1
             // 
             AcceptButton = btnAddPhotoFilePath;
@@ -112,16 +71,12 @@ namespace ALibWinForms
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(1260, 811);
-            Controls.Add(newVideoView1);
-            Controls.Add(videoPanel1);
-            Controls.Add(videoaLib1);
             Controls.Add(txtBoxFilePath);
             Controls.Add(btnAddPhotoFilePath);
             Controls.Add(pBoxImage);
             Name = "Form1";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pBoxImage).EndInit();
-            ((System.ComponentModel.ISupportInitialize)videoaLib1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -131,8 +86,5 @@ namespace ALibWinForms
         private PictureBox pBoxImage;
         private Button btnAddPhotoFilePath;
         private TextBox txtBoxFilePath;
-        private VideoALib videoaLib1;
-        private VideoInPanel videoPanel1;
-        private NewVideoView newVideoView1;
     }
 }

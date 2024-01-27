@@ -119,5 +119,35 @@ namespace ALibWinForms.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MyC_CalBackgroudImage {
+            get {
+                object obj = ResourceManager.GetObject("MyC#CalBackgroudImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MyC_CalBackgroudImage1 {
+            get {
+                object obj = ResourceManager.GetObject("MyC#CalBackgroudImage1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MyC_CalBackgroudImage2 {
+            get {
+                object obj = ResourceManager.GetObject("MyC#CalBackgroudImage2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
