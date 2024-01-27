@@ -9,7 +9,7 @@ using System.Threading;
 
 
 
-public class VideoPanel : Panel
+public class VideoInPanel : Panel
 {
     //object related with VideoView container
     private VideoViewInPanel v = new VideoViewInPanel();
@@ -29,18 +29,18 @@ public class VideoPanel : Panel
     private System.Windows.Forms.Timer timerGui;
     private Point compPosRelScreen;
     private Point mousePosition;
-    private static bool mouseInVideo = false;
-    private static bool guiTimerEqNonGuiTimer = false;
+    private bool guiTimerEqNonGuiTimer = false;
+    private bool delayProgressBar = false;
 
 
 
-    public static bool MouseInVideo
+    public VideoInPanel()
     {
-        get
-        {
-            return mouseInVideo;
-        }
+        
     }
+
+
+
     public Image VideoBackGroundImage
     {
         set
@@ -54,7 +54,7 @@ public class VideoPanel : Panel
 
             //Gui Timer -> in order to start and stop the video
             timerGui = new System.Windows.Forms.Timer();
-            timerGui.Interval = 1;
+            timerGui.Interval = 500;
             timerGui.Tick += On_GuiTimer;
             timerGui.Start();
 
@@ -82,7 +82,7 @@ public class VideoPanel : Panel
             return this.videoBackGroundImage;
         }
     }
-    public MediaPlayer MedPlay
+    private MediaPlayer MedPlay
     {
         set 
         { 
@@ -119,7 +119,7 @@ public class VideoPanel : Panel
 
 
     //Events
-    private void On_GuiTimer(object? sender, EventArgs e)
+    private async void On_GuiTimer(object? sender, EventArgs e)
     {
         try
         {
@@ -131,23 +131,30 @@ public class VideoPanel : Panel
                 && this.mousePosition.Y >= this.compPosRelScreen.Y && this.mousePosition.Y <= this.compPosRelScreen.Y + this.Height)
             {
                 guiTimerEqNonGuiTimer = true;
-                mouseInVideo = true;
+
                 v.Dock = DockStyle.Top;
                 v.Size = new Size(this.Width, this.Height - 5);
 
-
-
                 if (!this.medPlay.IsPlaying)
                 {
-                    this.medPlay.Play();
+                    await Task.Run(() => this.medPlay.Play(media));
+
+                    if(this.delayProgressBar)
+                    {
+                        movieCurrentTime = 0;
+                    }
+
+                    progressBar.Value = 0;
+                    delayProgressBar = true;
                 }
             }
             else
             {
-                guiTimerEqNonGuiTimer = false;
-                this.medPlay.Stop();
+                this.delayProgressBar = false;
+                this.guiTimerEqNonGuiTimer = false;
+                await Task.Run(() => this.medPlay.Stop());
                 this.progressBar.Value = 0;
-
+                movieCurrentTime = 0;
 
                 v.Dock = DockStyle.Fill;
             }
@@ -157,58 +164,64 @@ public class VideoPanel : Panel
 
         }
     }
-    public void On_nonGuiTimer(object sender)
+    public async void On_nonGuiTimer(object sender)
     {
-        if (this.progressBar.InvokeRequired)
+        await Task.Run(() =>
         {
-            this.progressBar.BeginInvoke((MethodInvoker)(() =>
+            if (this.progressBar.InvokeRequired)
+            {
+                this.progressBar.BeginInvoke((MethodInvoker)(() =>
+                {
+                    if (this.progressBar.Value < 100 && guiTimerEqNonGuiTimer && this.medPlay.IsPlaying
+                    && movieCurrentTime > 300)
+                    {
+                        progressBar.Value += 1;
+                    }
+                }));
+            }
+            else
             {
                 if (this.progressBar.Value < 100 && guiTimerEqNonGuiTimer && this.medPlay.IsPlaying
-                && movieCurrentTime > 300)
+                    && movieCurrentTime > 300)
                 {
                     progressBar.Value += 1;
                 }
-            }));
-        }
-        else
-        {
-            if (this.progressBar.Value < 100 && guiTimerEqNonGuiTimer && this.medPlay.IsPlaying
-                && movieCurrentTime > 300)
-            {
-                progressBar.Value += 1;
             }
-        }
+        });
     }
-    private void On_videoTime(object? sender, MediaPlayerTimeChangedEventArgs e)
+    private async void On_videoTime(object? sender, MediaPlayerTimeChangedEventArgs e)
     {
-        movieCurrentTime = e.Time;
-        if(initializeTimer == 0)
+        await Task.Run(() =>
         {
-            timer = new System.Threading.Timer(On_nonGuiTimer, null, TimeSpan.Zero,
-              TimeSpan.FromMilliseconds(medPlay.Length / 100));
-            ++initializeTimer;
-        }
-
-
-        if (!medPlay.IsPlaying)
-        {
-            timer.Change(Timeout.Infinite, Timeout.Infinite);
-            videoPlaying = false;
-        }
-        else
-        {
-            if(!videoPlaying)
+            movieCurrentTime = e.Time;
+            if (initializeTimer == 0)
             {
-                timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(medPlay.Length / 100));
-                videoPlaying = true;
+                timer = new System.Threading.Timer(On_nonGuiTimer, null, TimeSpan.Zero,
+                  TimeSpan.FromMilliseconds(medPlay.Length / 100));
+                ++initializeTimer;
             }
-        }
+
+
+            if (!medPlay.IsPlaying)
+            {
+                timer.Change(Timeout.Infinite, Timeout.Infinite);
+                videoPlaying = false;
+            }
+            else
+            {
+                if (!videoPlaying)
+                {
+                    timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(medPlay.Length / 100));
+                    videoPlaying = true;
+                }
+            }
+        });
     }
 
 
 
     //Painting
-    protected override void OnPaint(PaintEventArgs e) //Polymorphism
+    protected async override void OnPaint(PaintEventArgs e) //Polymorphism
     {
         base.OnPaint(e);
         Rectangle Rect = new Rectangle(0, 0, this.Width, this.Height);
@@ -222,13 +235,21 @@ public class VideoPanel : Panel
 }
 
 
-public class VideoViewInPanel : VideoView
+
+internal class VideoViewInPanel : VideoView
 {
     private string videoFilePath;
     private Image videoBackGroundImage;
     private LibVLC libVLC;
     private MediaPlayer mediaPlay;
     private Media media;
+
+
+
+    internal VideoViewInPanel()
+    {
+
+    }
 
 
 
@@ -281,41 +302,39 @@ public class VideoViewInPanel : VideoView
             this.mediaPlay.AspectRatio = $"{x}:{y}";
         });
     }
-    public void OpenVideo()
+    public async void OpenVideo()
     {
-        this.media = new Media(this.libVLC, this.videoFilePath, FromType.FromPath);
-
-        this.Invoke((MethodInvoker)delegate
+        await Task.Run(() =>
         {
-            string x = Convert.ToString(this.Width);
-            string y = Convert.ToString(this.Height);
-            this.mediaPlay.AspectRatio = $"{x}:{y}";
+            this.media = new Media(this.libVLC, this.videoFilePath, FromType.FromPath);
+
+            this.Invoke((MethodInvoker)delegate
+            {
+                string x = Convert.ToString(this.Width);
+                string y = Convert.ToString(this.Height);
+                this.mediaPlay.AspectRatio = $"{x}:{y}";
+            });
+            this.mediaPlay.Play(this.media);
+            this.mediaPlay.Stop();
         });
-        this.mediaPlay.Play(this.media);
-        this.mediaPlay.Stop();
     }
 
 
 
-    //MAKE THE VIDEO VIEW CONTAINER TO HAVE ROUND CORNER
-    protected override void OnPaint(PaintEventArgs e) //Polymorphism
+    //MAKE THE VIDEO VIEW CONTAINER TO HAVE ROUND CORNER ONLY ON THE TOP
+    protected async override void OnPaint(PaintEventArgs e) //Polymorphism
     {
-        base.Update();
         base.OnPaint(e);
-        if (VideoPanel.MouseInVideo == true)
-        {
-            Rectangle Rect = new Rectangle(0, 0, this.Width, this.Height);
-            GraphicsPath GraphPath = new GraphicsPath();
-            GraphPath.AddArc(Rect.X, Rect.Y, 50, 50, 180, 90); // Top-left corner
-            GraphPath.AddArc(Rect.X + Rect.Width - 50, Rect.Y, 50, 50, 270, 90); // Top-right corner
-            GraphPath.AddLine(Rect.X + Rect.Width, Rect.Y + 50, Rect.X + Rect.Width, Rect.Y + Rect.Height);
-            GraphPath.AddLine(Rect.X + Rect.Width, Rect.Y + Rect.Height, Rect.X, Rect.Y + Rect.Height);
-            GraphPath.AddLine(Rect.X, Rect.Y + Rect.Height, Rect.X, Rect.Y + 50);
-            GraphPath.CloseFigure();
+        Rectangle Rect = new Rectangle(0, 0, this.Width, this.Height);
+        GraphicsPath GraphPath = new GraphicsPath();
+        GraphPath.AddArc(Rect.X, Rect.Y, 50, 50, 180, 90); // Top-left corner
+        GraphPath.AddArc(Rect.X + Rect.Width - 50, Rect.Y, 50, 50, 270, 90); // Top-right corner
+        GraphPath.AddLine(Rect.X + Rect.Width, Rect.Y + 50, Rect.X + Rect.Width, Rect.Y + Rect.Height);
+        GraphPath.AddLine(Rect.X + Rect.Width, Rect.Y + Rect.Height, Rect.X, Rect.Y + Rect.Height);
+        GraphPath.AddLine(Rect.X, Rect.Y + Rect.Height, Rect.X, Rect.Y + 50);
+        GraphPath.CloseFigure();
 
-            this.Region = new Region(GraphPath);
-        }
+        this.Region = new Region(GraphPath);
         base.OnPaint(e);
-        base.Update();
     }
 }

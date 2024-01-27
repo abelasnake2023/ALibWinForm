@@ -34,7 +34,7 @@ namespace ALibWinForms
             btnAddPhotoFilePath = new Button();
             txtBoxFilePath = new TextBox();
             videoaLib1 = new VideoALib();
-            videoPanel1 = new VideoPanel();
+            videoPanel1 = new VideoInPanel();
             newVideoView1 = new NewVideoView();
             ((System.ComponentModel.ISupportInitialize)pBoxImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)videoaLib1).BeginInit();
@@ -132,7 +132,7 @@ namespace ALibWinForms
         private Button btnAddPhotoFilePath;
         private TextBox txtBoxFilePath;
         private VideoALib videoaLib1;
-        private VideoPanel videoPanel1;
+        private VideoInPanel videoPanel1;
         private NewVideoView newVideoView1;
     }
 }

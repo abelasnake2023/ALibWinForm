@@ -86,7 +86,7 @@ public partial class Form1 : Form
         }
     }
 
-    private void Form1_Load(object sender, EventArgs e)
+    private async void Form1_Load(object sender, EventArgs e)
     {
         pBoxImage.AllowDrop = true;
 

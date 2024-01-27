@@ -4,13 +4,7 @@
     <Compile Update="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Ui\Video\NewVideoView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="Ui\Video\VideoALib.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="Ui\Video\VideoPanel.cs">
+    <Compile Update="Ui\Video\VideoInPanel.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
