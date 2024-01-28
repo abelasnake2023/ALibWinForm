@@ -109,7 +109,7 @@ public class VideoInPanel : Panel
     }
     public void InitiateVideo()
     {
-        v.OpenVideo();
+        v.OpenVideoFromFile();
     }
     public string Help()
     {
@@ -312,7 +312,7 @@ internal class VideoViewInPanel : VideoView
             this.mediaPlay.AspectRatio = $"{x}:{y}";
         });
     }
-    public async void OpenVideo()
+    public async void OpenVideoFromFile()
     {
         await Task.Run(() =>
         {

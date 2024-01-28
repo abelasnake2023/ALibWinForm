@@ -17,12 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="ALib">
-      <HintPath>..\ALib\bin\Debug\net8.0\ALib.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -39,6 +33,12 @@
 
   <ItemGroup>
     <Folder Include="BusinessLogic\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ALib">
+      <HintPath>..\ALib\bin\Debug\net8.0\ALib.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
