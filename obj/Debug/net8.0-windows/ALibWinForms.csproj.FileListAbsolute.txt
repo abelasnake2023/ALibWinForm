@@ -965,3 +965,6 @@ C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\obj\Debug\net8.0-w
 C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\bin\Debug\net8.0-windows\Guna.UI2.dll
 C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\bin\Debug\net8.0-windows\System.Management.dll
 C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\bin\Debug\net8.0-windows\runtimes\win\lib\net7.0\System.Management.dll
+C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\obj\Debug\net8.0-windows\ALibWinForms.Ui.PopUpBox.OnlyMessage.resources
+C:\Users\user\Documents\C#\C# Code\CSharpProject\ALibWinForms\obj\Debug\net8.0-windows\ALibWinForms.Ui.PopUpBox.YesNo.resources

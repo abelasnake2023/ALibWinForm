@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Security.Policy;
 using System.Text;
 using System.Windows.Forms;
@@ -8,8 +8,8 @@ using LibVLCSharp.Shared;
 using LibVLCSharp.WinForms;
 using ALibWinForms.Ui.Video;
 using ALibWinForms.Ui.Photo;
-
-
+using ALibWinForms.Ui.PopUpBox;
+using Guna.UI2.WinForms.Suite;
 
 namespace ALibWinForms;
 
@@ -25,50 +25,66 @@ internal partial class Form1 : Form
 
     private async void btnAddPhotoFilePath_Click(object sender, EventArgs e)
     {
-        /*object[,] param = new object[1, 3]
-               {
-                            { "@photo", "int",  16 }
-               };
+        /* object[,] param = new object[1, 3]
+                {
+                             { "@photo", "int",  16 }
+                };
 
 
-        ALibDataReader reader = new ALibDataReader();
+         ALibDataReader reader = new ALibDataReader();
 
-        object o = null;
-        await Task.Run(() =>
-        {
-            try
-            {
-                o = reader.ExecuteScalarFunction("dbo.GetPhoto", param);
-            }
-            catch
-            {
-                Debug.WriteLine("I think timeout");
-            }
-        });
-
-
-
-        if (o is byte[])
-        {
-            byte[] byteArray = (byte[])o;
+         object o = null;
+         await Task.Run(() =>
+         {
+             try
+             {
+                 o = reader.ExecuteScalarFunction("dbo.GetPhoto", param);
+             }
+             catch
+             {
+                 Debug.WriteLine("I think timeout");
+             }
+         });
 
 
-            Debug.WriteLine(BitConverter.ToString(byteArray));
+
+         if (o is byte[])
+         {
+             byte[] byteArray = (byte[])o;
 
 
-            Image i = Image.FromFile(@"C:\Users\user\Desktop\Github profile.jpg");
-            VideoInPanel videoInPanel = new VideoInPanel();
-            videoInPanel.Location = new Point(500, 400);
-            videoInPanel.Size = new Size(500, 300);
-            videoInPanel.VideoBackGroundImage = i;
+             Debug.WriteLine(BitConverter.ToString(byteArray));
 
-            string filePath = VideoConverter.ConvertByteArrayToVideoFile(byteArray);
-            Debug.WriteLine("my file path: " + filePath);
 
-            videoInPanel.VideoFile(filePath);
-            videoInPanel.InitiateVideo();
-            this.Controls.Add(videoInPanel);
-        }*/
+             Image i = Image.FromFile(@"C:\Users\user\Desktop\Github profile.jpg");
+             VideoInPanel videoInPanel = new VideoInPanel();
+             videoInPanel.Location = new Point(500, 400);
+             videoInPanel.Size = new Size(500, 300);
+             videoInPanel.VideoBackGroundImage = i;
+
+             string filePath = VideoConverter.ConvertByteArrayToVideoFile(byteArray);
+             Debug.WriteLine("my file path: " + filePath);
+
+             videoInPanel.VideoFile(filePath);
+             videoInPanel.InitiateVideo();
+             this.Controls.Add(videoInPanel);
+         }*/
+
+
+        Image i = Image.FromFile(@"C:\Users\user\Desktop\Github profile.jpg");
+        VideoInPanel videoInPanel = new VideoInPanel();
+        videoInPanel.Location = new Point(500, 400);
+        videoInPanel.Size = new Size(500, 300);
+        videoInPanel.VideoBackGroundImage = i;
+        videoInPanel.VideoFile(@"C:\Users\user\Videos\Captures\Messi fa on Liverpool (2).mp4");
+        videoInPanel.InitiateVideo();
+        this.Controls.Add(videoInPanel);
+
+        Debug.WriteLine(videoInPanel.Help());
+    }
+    public void On_btnYes(object? sender, EventArgs e)
+    {
+        Debug.WriteLine("worked!!!!!!");
     }
 
     private void On_imageDropped(object sender, DragEventArgs e)

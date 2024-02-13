@@ -30,9 +30,11 @@ namespace ALibWinForms
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             pBoxImage = new PictureBox();
             btnAddPhotoFilePath = new Button();
             txtBoxFilePath = new TextBox();
+            guna2BorderlessForm1 = new Guna.UI2.WinForms.Guna2BorderlessForm(components);
             ((System.ComponentModel.ISupportInitialize)pBoxImage).BeginInit();
             SuspendLayout();
             // 
@@ -64,6 +66,12 @@ namespace ALibWinForms
             txtBoxFilePath.Size = new Size(292, 23);
             txtBoxFilePath.TabIndex = 2;
             // 
+            // guna2BorderlessForm1
+            // 
+            guna2BorderlessForm1.ContainerControl = this;
+            guna2BorderlessForm1.DockIndicatorTransparencyValue = 0.6D;
+            guna2BorderlessForm1.TransparentWhileDrag = true;
+            // 
             // Form1
             // 
             AcceptButton = btnAddPhotoFilePath;
@@ -74,6 +82,7 @@ namespace ALibWinForms
             Controls.Add(txtBoxFilePath);
             Controls.Add(btnAddPhotoFilePath);
             Controls.Add(pBoxImage);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "Form1";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pBoxImage).EndInit();
@@ -86,5 +95,6 @@ namespace ALibWinForms
         private PictureBox pBoxImage;
         private Button btnAddPhotoFilePath;
         private TextBox txtBoxFilePath;
+        private Guna.UI2.WinForms.Guna2BorderlessForm guna2BorderlessForm1;
     }
 }
